@@ -22,6 +22,46 @@ Render est en mode **Docker** mais ne trouve pas le Dockerfile. Deux options :
 
 ---
 
+### Erreur « Exited with status 1 » (crash au démarrage)
+
+Le build réussit mais le service s’arrête tout de suite. **Regarde les logs Render** (onglet **Logs** du Web Service) : tu devrais voir des lignes `[Startup]` qui indiquent la cause.
+
+**Cause la plus fréquente : `DATABASE_URL` manquante**
+
+1. Sur Render → ton **Web Service** → **Environment** (ou **Settings** → **Environment**).
+2. Vérifie qu’il existe une variable **`DATABASE_URL`**.
+3. Si elle n’existe pas : **Add Environment Variable** → Name = `DATABASE_URL`, Value = l’**Internal Database URL** de ta base PostgreSQL Render (copier depuis la page de la base, section **Connections**).
+4. Si tu as créé la base dans le même compte Render : tu peux aussi **Connect** la base au service (lien « Add Database » ou « Link existing PostgreSQL ») ; Render ajoute alors `DATABASE_URL` automatiquement.
+5. Sauvegarde puis **Manual Deploy** → **Deploy latest commit**.
+
+**Autres causes possibles :**
+
+- **Port** : ne pas définir `PORT` manuellement ; Render injecte `PORT` tout seul.
+- **Connexion refusée à la base** : vérifier que la base est dans la même région et que tu utilises l’**Internal** Database URL (pas External) si les deux services sont sur Render.
+
+---
+
+### « Y’a encore un problème mais je sais pas quoi » – Diagnostic
+
+1. **Ouvre l’URL du backend** (ex. `https://saas-ofm-backend.onrender.com`) dans le navigateur. Tu dois voir une réponse (même une erreur 404 ou « Cannot GET / » = le service tourne).
+2. **Ouvre la page de diagnostic** :  
+   `https://ton-backend.onrender.com/api/health`  
+   (remplace par ton URL Render). Tu dois voir un JSON du type :
+   - `ok: true`
+   - `env.hasDatabase` / `env.databaseConnected` : si `false`, la base n’est pas configurée ou pas joignable.
+   - `env.hasStripeKey` / `env.hasStripePrices` : si `false`, c’est normal si tu n’as pas encore configuré Stripe (tu pourras le faire plus tard).
+   - `env.hasJwtSecret` : si `false`, la connexion (login) peut poser problème.
+3. **Logs Render** : onglet **Logs** du Web Service. Regarde les lignes `[Startup]` et les erreurs en rouge. Copie le message d’erreur exact si tu demandes de l’aide.
+4. **Checklist rapide** :
+   - Backend déployé et **Logs** affichent « Backend running on port … » ?
+   - `/api/health` renvoie `databaseConnected: true` ?
+   - Sur Vercel : variable **VITE_API_URL** (ou **BACKEND_URL** selon ton code) = URL du backend Render (avec `https://`) ?
+   - Le site public (sales.html) s’ouvre sur l’URL Vercel ?
+
+Si tu peux, envoie le **message d’erreur exact** des logs Render ou la réponse de `/api/health` pour cibler le problème.
+
+---
+
 ### Autre cause fréquente : build depuis la racine au lieu de `backend`
 
 À faire sur Render (Web Service) :
@@ -87,18 +127,17 @@ Sans ça, Render et Vercel ne verront pas ton projet.
    - **Build Command** : `npm install`
    - **Start Command** : `node server.js`
    - **Plan** : **Free**.
-5. **Advanced** → **Add Environment Variable** et ajoute **toutes** ces variables :
+5. **Advanced** → **Add Environment Variable**. Ajoute **au minimum** ces variables (Stripe peut attendre) :
 
 | Name           | Value |
 |----------------|--------|
 | `NODE_ENV`     | `production` |
 | `DATABASE_URL` | Colle l’**Internal Database URL** copiée à l’étape 1.2 |
-| `STRIPE_SECRET_KEY` | Ta clé Stripe (sk_test_... ou sk_live_...) |
-| `STRIPE_PRICE_MONTHLY` | ID prix Stripe mensuel (price_...) |
-| `STRIPE_PRICE_YEARLY` | ID prix Stripe annuel (price_...) |
 | `JWT_SECRET`   | Une chaîne aléatoire (ex. `ma-cle-secrete-123`) |
-| `FRONTEND_URL` | Pour l’instant mets `https://placeholder.vercel.app` (on mettra l’URL Vercel après) |
+| `FRONTEND_URL` | Pour l’instant `https://placeholder.vercel.app` (tu mettras l’URL Vercel après) |
 | `BASE_URL`     | Idem : `https://placeholder.vercel.app` |
+
+**Stripe (optionnel, pour plus tard)** : quand tu voudras activer les paiements, ajoute `STRIPE_SECRET_KEY`, `STRIPE_PRICE_MONTHLY`, `STRIPE_PRICE_YEARLY` (et éventuellement `STRIPE_WEBHOOK_SECRET` pour les webhooks). Sans Stripe, le backend tourne normalement ; seul le bouton d’abonnement ne fonctionnera pas.
 
 6. **Create Web Service**.
 7. Attends le premier déploiement (build + start). Si tout est vert, le backend tourne.
