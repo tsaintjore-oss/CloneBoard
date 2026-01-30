@@ -9,7 +9,12 @@ import paymentRoutes from "./routes/payment.js";
 import webhookRoutes from "./routes/webhook.js";
 import authRoutes from "./routes/auth.js";
 
-// Initialiser la connexion à la base de données
+// En production (Render), DATABASE_URL est obligatoire
+if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+  console.error("❌ DATABASE_URL est obligatoire en production. Configure-la sur Render.");
+  process.exit(1);
+}
+
 initDatabase();
 
 const app = express();
@@ -39,11 +44,12 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT || 3001;
+const HOST = process.env.NODE_ENV === "production" ? "0.0.0.0" : undefined;
 
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
   console.log(`Backend running on port ${PORT}`);
   console.log("Payment routes available at /api/payment");
-  if (!process.env.DATABASE_URL) {
-    console.log("📦 SQLite database will be created automatically");
+  if (process.env.DATABASE_URL) {
+    console.log("✅ PostgreSQL connecté");
   }
 });

@@ -4,9 +4,9 @@
  */
 
 export default async function handler(req, res) {
-  const apiUrl = process.env.VITE_API_URL || process.env.RAILWAY_URL || 'http://localhost:3001';
-  const path = req.url.replace('/api', '');
-  const targetUrl = `${apiUrl}${path}${req.url.includes('?') ? '' : (Object.keys(req.query).length > 0 ? '?' + new URLSearchParams(req.query).toString() : '')}`;
+  const baseUrl = (process.env.VITE_API_URL || process.env.BACKEND_URL || 'http://localhost:3001').replace(/\/$/, '');
+  const path = req.url || '';
+  const targetUrl = path.startsWith('http') ? path : `${baseUrl}${path}`;
 
   try {
     const response = await fetch(targetUrl, {

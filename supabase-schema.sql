@@ -42,4 +42,4 @@ $$ language 'plpgsql';
 
 -- Trigger pour mettre à jour updated_at automatiquement
 CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users
-FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
