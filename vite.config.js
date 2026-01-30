@@ -26,7 +26,9 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:3001',
+        // En développement : utilise localhost
+        // En production : utilise l'URL Railway depuis les variables d'environnement
+        target: process.env.VITE_API_URL || 'http://localhost:3001',
         changeOrigin: true,
       },
     },

@@ -2,11 +2,15 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { initDatabase } from "./db/db.js";
 import dashboardRoutes from "./routes/dashboard.js";
 import adminRoutes from "./routes/admin.js";
 import paymentRoutes from "./routes/payment.js";
 import webhookRoutes from "./routes/webhook.js";
 import authRoutes from "./routes/auth.js";
+
+// Initialiser la connexion à la base de données
+initDatabase();
 
 const app = express();
 
@@ -34,7 +38,12 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/auth", authRoutes);
 
-app.listen(3001, () => {
-  console.log("Backend running on http://localhost:3001");
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
   console.log("Payment routes available at /api/payment");
+  if (!process.env.DATABASE_URL) {
+    console.log("📦 SQLite database will be created automatically");
+  }
 });

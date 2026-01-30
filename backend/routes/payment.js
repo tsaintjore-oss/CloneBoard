@@ -35,10 +35,10 @@ router.post("/create-checkout-session", async (req, res) => {
     }
 
     const normalizedEmail = email.trim().toLowerCase();
-    let user = getUserByEmail(normalizedEmail);
+    let user = await getUserByEmail(normalizedEmail);
     if (!user) {
-      const userId = createUser(normalizedEmail);
-      user = getUserById(userId);
+      const userId = await createUser(normalizedEmail);
+      user = await getUserById(userId);
     }
 
     let customerId = user.stripe_customer_id;
@@ -48,7 +48,11 @@ router.post("/create-checkout-session", async (req, res) => {
         metadata: { userId: user.id.toString() },
       });
       customerId = customer.id;
-      updateUserStripeCustomerId(normalizedEmail, customerId);
+      if (process.env.DATABASE_URL) {
+        await updateUserStripeCustomerId(normalizedEmail, customerId);
+      } else {
+        updateUserStripeCustomerId(normalizedEmail, customerId);
+      }
     }
 
     const priceId = PRICES[plan];
@@ -111,7 +115,11 @@ router.get("/verify-session", async (req, res) => {
       } else {
         endDate.setFullYear(endDate.getFullYear() + 1);
       }
-      updateUserSubscription(email, plan, "active", endDate.toISOString());
+      if (process.env.DATABASE_URL) {
+        await updateUserSubscription(email, plan, "active", endDate.toISOString());
+      } else {
+        updateUserSubscription(email, plan, "active", endDate.toISOString());
+      }
 
       res.json({ success: true, email, plan, accessGranted: true });
     } else {
@@ -131,15 +139,19 @@ router.get("/verify-session", async (req, res) => {
   }
 });
 
-router.get("/check-access", (req, res) => {
+router.get("/check-access", async (req, res) => {
   try {
     const raw = req.query.email;
     if (!raw) {
       return res.status(400).json({ error: "Email required" });
     }
     const email = raw.trim().toLowerCase();
-    const hasAccess = hasActiveSubscription(email);
-    const user = getUserByEmail(email);
+    const hasAccess = process.env.DATABASE_URL
+      ? await hasActiveSubscription(email)
+      : hasActiveSubscription(email);
+    const user = process.env.DATABASE_URL
+      ? await getUserByEmail(email)
+      : getUserByEmail(email);
     res.json({
       hasAccess,
       subscriptionStatus: user?.subscription_status || "inactive",

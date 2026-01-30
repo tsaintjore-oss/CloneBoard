@@ -33,14 +33,14 @@ router.post("/signup", async (req, res) => {
     }
 
     const normalizedEmail = email.trim().toLowerCase();
-    const existing = getUserByEmail(normalizedEmail);
+    const existing = await getUserByEmail(normalizedEmail);
     if (existing) {
       return res.status(400).json({ success: false, error: "An account with this email already exists. Log in instead." });
     }
 
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
-    const userId = createUserWithPassword(normalizedEmail, passwordHash);
-    const user = getUserByEmail(normalizedEmail);
+    const userId = await createUserWithPassword(normalizedEmail, passwordHash);
+    const user = await getUserByEmail(normalizedEmail);
 
     const token = jwt.sign({ userId: user.id, email: normalizedEmail }, JWT_SECRET, { expiresIn: "7d" });
     res.json({ success: true, email: normalizedEmail, token });
@@ -67,7 +67,9 @@ router.post("/login", async (req, res) => {
     }
 
     const normalizedEmail = email.trim().toLowerCase();
-    const user = getUserByEmail(normalizedEmail);
+    const user = process.env.DATABASE_URL
+      ? await getUserByEmail(normalizedEmail)
+      : getUserByEmail(normalizedEmail);
 
     if (!user) {
       return res.status(401).json({ success: false, error: "Invalid email or password" });

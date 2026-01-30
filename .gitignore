@@ -11,6 +11,12 @@ build/
 .env.local
 .env.*.local
 
+# base de données locale
+*.db
+*.sqlite
+*.sqlite3
+backend/users.db
+
 # logs
 npm-debug.log*
 *.log
