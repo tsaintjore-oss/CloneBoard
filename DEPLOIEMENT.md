@@ -78,7 +78,8 @@ On te demandera peut-être de te connecter à GitHub (navigateur ou token).
 ### 5.3. Récupérer l'URL de connexion
 
 1. Dans Supabase → **"Settings"** → **"Database"**
-2. Copie l'**"Connection string"** (format URI)
+)poà 
+*$^zq<&q string"** (format URI)
 3. Remplace `[PASSWORD]` par ton mot de passe
 
 **Guide détaillé** : Voir `MIGRATION_SUPABASE.md` pour les instructions complètes.
