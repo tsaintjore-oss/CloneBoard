@@ -1,0 +1,10 @@
+RENDER – CONFIG OBLIGATOIRE
+============================
+
+Sur Render (Web Service), tu DOIS mettre :
+
+  Root Directory :   backend
+  Build Command :    npm install
+  Start Command :    node server.js
+
+Si Root Directory est vide ou autre chose, le build échoue.

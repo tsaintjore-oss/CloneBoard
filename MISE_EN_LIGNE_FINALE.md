@@ -4,6 +4,21 @@ Tout est prêt côté code. Suis ces étapes **dans l’ordre**.
 
 ---
 
+## ⚠️ SI LE BUILD RENDER ÉCHOUE
+
+**La cause la plus fréquente :** Render build depuis la **racine** au lieu du dossier **backend**.
+
+À faire sur Render (Web Service) :
+1. Va dans **Settings** du service.
+2. **Root Directory** : mets exactement **`backend`** (sans slash, sans espace).
+3. **Build Command** : mets exactement **`npm install`**.
+4. **Start Command** : mets exactement **`node server.js`**.
+5. Sauvegarde puis **Manual Deploy** → **Deploy latest commit**.
+
+Sans **Root Directory = backend**, le build part de la racine et échoue (npm ci / lock file).
+
+---
+
 ## Étape 0 : Pousser le code sur GitHub
 
 1. Ouvre **GitHub Desktop** (ou fais un push en ligne de commande).
