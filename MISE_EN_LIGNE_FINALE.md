@@ -6,7 +6,23 @@ Tout est prêt côté code. Suis ces étapes **dans l’ordre**.
 
 ## ⚠️ SI LE BUILD RENDER ÉCHOUE
 
-**La cause la plus fréquente :** Render build depuis la **racine** au lieu du dossier **backend**.
+### Erreur « failed to read dockerfile: open Dockerfile: no such file or directory »
+
+Render est en mode **Docker** mais ne trouve pas le Dockerfile. Deux options :
+
+**Option A (recommandée) – pas de Docker :**
+1. **Settings** du Web Service → **Runtime** : choisis **Node** (pas Docker).
+2. **Root Directory** : `backend`
+3. **Build Command** : `npm install`
+4. **Start Command** : `node server.js`
+5. Sauvegarde → **Manual Deploy**.
+
+**Option B – garder Docker :**
+- Le fichier **`backend/Dockerfile`** existe maintenant. Pousse le code sur GitHub (commit + push), puis sur Render garde **Root Directory** = `backend` et relance un déploiement. Render trouvera `backend/Dockerfile`.
+
+---
+
+### Autre cause fréquente : build depuis la racine au lieu de `backend`
 
 À faire sur Render (Web Service) :
 1. Va dans **Settings** du service.
@@ -22,7 +38,7 @@ Sans **Root Directory = backend**, le build part de la racine et échoue (npm ci
 ## Étape 0 : Pousser le code sur GitHub
 
 1. Ouvre **GitHub Desktop** (ou fais un push en ligne de commande).
-2. Ajoute tous les fichiers (dont `backend/package.json`, `render.yaml`, `nixpacks.toml`, `Dockerfile`).
+2. Ajoute tous les fichiers (dont `backend/package.json`, `backend/Dockerfile`, `render.yaml`, `nixpacks.toml`, `Dockerfile`).
 3. Commit : "Prêt pour Render + Vercel".
 4. **Push** vers GitHub.
 
