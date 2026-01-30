@@ -5,7 +5,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "/api/proxy"
+      "destination": "https://saas-ofm-backend.onrender.com/api/:path*"
     },
     {
       "source": "/",
