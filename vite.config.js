@@ -10,9 +10,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
+        main: resolve(__dirname, 'sales.html'),
         admin: resolve(__dirname, 'admin.html'),
-        sales: resolve(__dirname, 'sales.html'),
+        index: resolve(__dirname, 'index.html'),
         shop: resolve(__dirname, 'shop.html'),
         success: resolve(__dirname, 'success.html'),
         access: resolve(__dirname, 'access.html'),
