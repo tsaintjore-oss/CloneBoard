@@ -1,0 +1,34 @@
+========================================
+  COMMENT OUVRIR OFM — TRÈS SIMPLE
+  (site web normal, comme l'autre SaaS)
+========================================
+
+1. Ouvre le dossier :  Bureau  →  "saas ofm"
+
+2. Double-clique sur :  index.html
+
+3. Le site s'ouvre dans ton navigateur (Chrome, Edge, etc.).
+
+   Aucune installation. Pas de Node.js, pas de npm, pas de commandes.
+
+
+========================================
+  SI LE FICHIER S'OUVRE AVEC UN AUTRE PROGRAMME
+========================================
+
+- Clic droit sur  index.html  →  "Ouvrir avec"  →  Chrome ou Edge.
+
+
+========================================
+  FICHIERS DU PROJET (version actuelle)
+========================================
+
+- index.html   : la page (double-clic pour lancer)
+- styles.css   : les styles
+- script.js    : le fonctionnement (graphiques, personnalisation, export)
+- public/      : favicon, etc.
+
+L'ancienne version (React + Node + npm) est toujours dans  src/  et  package.json
+si tu en as besoin. Pour utiliser OFM au quotidien, ouvre juste  index.html.
+
+========================================

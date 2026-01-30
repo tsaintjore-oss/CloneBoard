@@ -1,0 +1,20 @@
+========================================
+  LANCER OFM (site web normal)
+  Comme l'autre SaaS : juste ouvrir le fichier
+========================================
+
+1. Ouvre le dossier :  Bureau  ->  saas ofm
+
+2. Double-clique sur :  index.html
+
+3. Le site s'ouvre dans ton navigateur (Chrome, Edge, etc.).
+   Aucune installation, pas de Node.js, pas de npm.
+
+   Si le navigateur te demande "Ouvrir avec...", choisis Chrome ou Edge.
+
+
+========================================
+  C'est tout.
+  Plus besoin de start.bat, Ouvrir_terminal_ici.bat,
+  ni de taper npm install / npm run dev.
+========================================

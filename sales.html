@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cloneboard — Professional Ready-to-Use Dashboards</title>
+    <link rel="icon" type="image/svg+xml" href="./public/favicon.svg" />
+    <link rel="stylesheet" href="./sales.css" />
+    <meta
+      name="description"
+      content="Cloneboard offers professional ready-to-use dashboards. Cloneboard is one of our available solutions. Immediate access, dedicated support, transparent pricing."
+    />
+  </head>
+  <body>
+    <script>
+      window.openAuthModal = function(mode) {
+        if (typeof mode !== 'string') mode = 'login';
+        var m = document.getElementById('loginModal');
+        if (!m) return;
+        m.classList.add('is-open');
+        m.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('login-modal-open');
+      };
+    </script>
+    <header class="topbar animate-fade-in">
+      <div class="container topbar-inner">
+        <div class="brand">
+          <img src="./public/logo-cloneboard.png" alt="Cloneboard" class="logo" width="120" height="48" />
+          <div>
+            <div class="brand-title">Cloneboard</div>
+            <div class="brand-sub">Fake and clone dashboards for sale</div>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <a class="hide-sm" href="#dashboards">Dashboards</a>
+          <a class="hide-sm" href="#features">Features</a>
+          <a class="hide-sm" href="#pricing">Pricing</a>
+          <a class="hide-sm" href="#faq">FAQ</a>
+          <span id="navLoggedOut" class="nav-auth-in">
+            <a href="#" class="btn js-open-auth-login" id="navLoginBtn" role="button">Log in</a>
+            <a href="#" class="btn js-open-auth-signup" id="navSignUpBtn" role="button">Sign up</a>
+          </span>
+          <span id="navLoggedIn" class="nav-auth-in" style="display: none;">
+            <a href="access.html" class="btn">My access</a>
+            <button class="btn" type="button" id="headerLogoutBtn">Log out</button>
+          </span>
+          <button class="btn btn-primary" type="button" data-cta="access">Get Access</button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-content">
+          <div class="hero-label animate-fade-in">FAKE DASHBOARDS & CLONES</div>
+          <h1 class="hero-headline animate-float-up delay-100">
+            Fake dashboards.<br />
+            Done right.
+          </h1>
+          <p class="hero-support animate-float-up delay-200">
+            Realistic and premium dashboards, ready to use.
+          </p>
+          <button class="hero-cta btn-hero-primary animate-scale-in delay-300" type="button" data-cta="access">
+            View Cloneboard
+          </button>
+          <a href="examples/" class="hero-link animate-fade-in delay-400">
+            Discover examples →
+          </a>
+        </div>
+      </section>
+
+      <!-- Stats section séparée -->
+      <section class="section" style="padding-top: 0; padding-bottom: 4rem;">
+        <div class="container">
+          <div class="stats">
+            <div class="card animate-scale-in delay-100">
+              <div class="kpi-title">Immediate clarity</div>
+              <div class="kpi-value">A product that speaks for itself.<br />No explanation required.</div>
+            </div>
+            <div class="card animate-scale-in delay-200">
+              <div class="kpi-title">Designed for impact</div>
+              <div class="kpi-value">Dashboards built to look real,<br />credible, and convincing.</div>
+            </div>
+            <div class="card animate-scale-in delay-300">
+              <div class="kpi-title">No hidden catch</div>
+              <div class="kpi-value">What you see is exactly<br />what you get.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Trust section séparée -->
+      <section class="section" id="proof" style="padding-top: 0; padding-bottom: 4rem;">
+        <div class="container">
+          <div class="trust-row" aria-label="Trust elements">
+            <div class="trust-item">
+              <span class="trust-ico" aria-hidden="true">✓</span>
+              <span>Existing dashboards</span>
+            </div>
+            <div class="trust-item">
+              <span class="trust-ico" aria-hidden="true">✓</span>
+              <span>Transparent pricing</span>
+            </div>
+            <div class="trust-item">
+              <span class="trust-ico" aria-hidden="true">✓</span>
+              <span>Access sold via Cloneboard</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="dashboards">
+        <div class="container">
+          <h2 class="animate-float-up">Our Professional Dashboards</h2>
+          <p class="animate-float-up delay-100">
+            Cloneboard offers a selection of ready-to-use dashboards. Each dashboard is fully
+            functional, documented, and ready to be deployed immediately.
+          </p>
+
+          <div class="dashboard-showcase">
+            <div class="card dashboard-card animate-scale-in delay-200">
+              <div class="dashboard-card-header">
+                <div>
+                  <div class="h3">Fake dash InFlow</div>
+                  <p class="mini">Dashboard analytics et revenus</p>
+                </div>
+                <div class="badge badge-active">Disponible</div>
+              </div>
+              <p>
+                Complete Fake dash InFlow for tracking revenue, transactions, growth and KPIs. Modern interface,
+                data export, advanced filters. Perfect for creators, agencies and sales teams.
+              </p>
+              <div style="margin-top: 14px;">
+                <button class="btn btn-primary" type="button" data-cta="access">Get Access</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="screens">
+        <div class="container">
+          <h2>Cloneboard Preview</h2>
+          <p>
+            Professional interface, real-time data, clear visualizations. The dashboard is operational from
+            the moment you access it.
+          </p>
+          <div class="shots">
+            <div class="shot animate-scale-in delay-100">
+              <div class="shot-head">KPI View</div>
+              <div class="shot-body"></div>
+            </div>
+            <div class="shot animate-scale-in delay-200">
+              <div class="shot-head">Transactions</div>
+              <div class="shot-body shot-body--alt"></div>
+            </div>
+            <div class="shot animate-scale-in delay-300">
+              <div class="shot-head">Growth</div>
+              <div class="shot-body shot-body--green"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="two-col">
+            <div class="card animate-scale-in delay-100">
+              <div class="eyebrow">The Problem</div>
+              <div class="h3">Developing a professional dashboard takes months.</div>
+              <p>
+                Design, development, testing, documentation, maintenance — the real cost of a professional dashboard
+                often exceeds €50,000 and several months of work. Cloneboard saves you this time and this
+                investment.
+              </p>
+            </div>
+            <div class="card animate-scale-in delay-200">
+              <div class="eyebrow">The Solution</div>
+              <div class="h3">Ready-to-use dashboards. Immediate access.</div>
+              <p>
+                Cloneboard offers fully functional, documented and maintained dashboards. Cloneboard is one of
+                our available solutions. You get a professional product operational today, with
+                support and updates included.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="container">
+          <h2 class="animate-float-up">What You Get</h2>
+          <p class="animate-float-up delay-100">Each Cloneboard dashboard includes all the necessary professional features.</p>
+
+          <div class="grid3">
+            <div class="card animate-scale-in delay-100">
+              <div class="h3">Fully Functional Dashboard</div>
+              <p>
+                Complete interface, structured data, professional visualizations. The dashboard is operational
+                from the moment you access it, without complex configuration.
+              </p>
+            </div>
+            <div class="card animate-scale-in delay-200">
+              <div class="h3">Complete Documentation</div>
+              <p>
+                User guide, API, integrations, code examples. Everything you need to deploy and
+                customize the dashboard.
+              </p>
+            </div>
+            <div class="card animate-scale-in delay-300">
+              <div class="h3">Priority Support</div>
+              <p>
+                Dedicated team available to answer your questions, solve problems and assist you with
+                deployment.
+              </p>
+            </div>
+            <div class="card animate-scale-in delay-100">
+              <div class="h3">Regular Updates</div>
+              <p>
+                Continuous improvements, new features, bug fixes. Your dashboard evolves with your
+                needs.
+              </p>
+            </div>
+            <div class="card animate-scale-in delay-200">
+              <div class="h3">Immediate Access</div>
+              <p>
+                No waiting, no development. You get access to the dashboard upon subscription, ready to
+                use.
+              </p>
+            </div>
+            <div class="card animate-scale-in delay-300">
+              <div class="h3">Customization Available</div>
+              <p>
+                Branding, colors, custom integrations available depending on your plan. The dashboard adapts to your
+                identity.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="pricing">
+        <div class="container">
+          <div class="pricing-head">
+            <div class="animate-float-up">
+              <h2>Simple Pricing</h2>
+              <p>Transparent, clear, no surprises.</p>
+            </div>
+          </div>
+
+          <div class="price-grid">
+            <div class="card price price--featured" style="border-color: rgba(212, 175, 111, 0.45);">
+              <span class="badge">MOST POPULAR</span>
+              <div class="h3" style="margin-top: 10px;">Monthly access</div>
+              <div class="price-amt">39.99€</div>
+              <div class="price-sub">per month</div>
+              <ul class="list">
+                <li>Full access to Cloneboard</li>
+                <li>Access to InFlow fake dashboard</li>
+                <li>Updates included</li>
+                <li>Email support</li>
+              </ul>
+              <div style="margin-top: 16px;">
+                <button class="btn btn-primary" type="button" data-cta="access" data-plan="monthly" data-original-text="Get access">Get access</button>
+              </div>
+            </div>
+
+            <div class="card price animate-scale-in delay-200">
+              <div class="h3">Annual access</div>
+              <div class="price-amt">149.99€</div>
+              <div class="price-sub">per year</div>
+              <div style="margin-top: 12px; margin-bottom: 8px;">
+                <span class="mini" style="color: var(--accent); font-weight: 500;">Save €329.89 compared to monthly</span>
+              </div>
+              <ul class="list">
+                <li>Everything in Monthly</li>
+                <li>Best value</li>
+                <li>Long-term access</li>
+              </ul>
+              <div style="margin-top: 16px;">
+                <button class="btn btn-primary" type="button" data-cta="access" data-plan="yearly" data-original-text="Get annual access">Get annual access</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="guarantee">
+            <div class="card animate-scale-in delay-200">
+              <div class="h3">Money-Back Guarantee</div>
+              <p>
+                If the dashboard doesn't meet your expectations within the first 14 days, we'll refund you
+                in full. No questions asked.
+              </p>
+            </div>
+            <div class="card animate-scale-in delay-300">
+              <div class="h3">Included in All Plans</div>
+              <ul class="list">
+                <li>Full dashboard access</li>
+                <li>Documentation and guides</li>
+                <li>Technical support</li>
+                <li>Regular updates</li>
+                <li>Personalized onboarding</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="container">
+          <h2 class="animate-float-up">FAQ</h2>
+          <p class="animate-float-up delay-100">Short answers, trust-focused.</p>
+
+          <div class="faq">
+            <button class="faq-q" type="button" aria-expanded="false">
+              Qu’est-ce que Cloneboard ?
+            </button>
+            <div class="faq-a" hidden>
+              Cloneboard est une marque qui vend des dashboards fake et clones. Cloneboard est l’un des dashboards disponibles
+              sur Cloneboard. Ce site présente et vend l’accès à ces dashboards.
+            </div>
+
+            <button class="faq-q" type="button" aria-expanded="false">
+              Le dashboard Cloneboard est-il dans cette page ?
+            </button>
+            <div class="faq-a" hidden>
+              Non. Cette page de vente ne contient pas Cloneboard. Elle le présente et vend l’accès via Cloneboard (comme un
+              vrai SaaS).
+            </div>
+
+            <button class="faq-q" type="button" aria-expanded="false">
+              Qu’est-ce que j’achète exactement ?
+            </button>
+            <div class="faq-a" hidden>
+              Un abonnement Cloneboard donnant accès au dashboard Cloneboard (le produit existe déjà). Starter/Pro/Business
+              changent surtout le niveau d’accès, support, et options.
+            </div>
+
+            <button class="faq-q" type="button" aria-expanded="false">
+              Can I change the text, prices, sections?
+            </button>
+            <div class="faq-a" hidden>
+              Yes. Everything is in `sales.html` / `sales.css`. You can adapt it to the client or your offer.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="container">
+          <div class="contact">
+            <div class="animate-float-up">
+              <h2>Contact</h2>
+              <p>
+                Questions about our dashboards? Need a personalized demo? Our team is available to
+                assist you.
+              </p>
+              <div class="contact-cards">
+                <div class="card animate-scale-in delay-100">
+                  <div class="h3">Guaranteed Response</div>
+                  <p>We respond within 24 business hours to all your requests.</p>
+                </div>
+                <div class="card animate-scale-in delay-200">
+                  <div class="h3">Email</div>
+                  <p><a href="mailto:sales@cloneboard.example">sales@cloneboard.example</a></p>
+                </div>
+              </div>
+            </div>
+            <form class="card form animate-scale-in delay-200" onsubmit="return false" aria-label="Contact form">
+              <label class="field">
+                <span>Name</span>
+                <input class="input" type="text" placeholder="Your name" />
+              </label>
+              <label class="field">
+                <span>Email</span>
+                <input class="input" type="email" placeholder="your@email.com" />
+              </label>
+              <label class="field">
+                <span>Message</span>
+                <textarea class="input" rows="4" placeholder="Tell us about your project…"></textarea>
+              </label>
+              <button class="btn btn-primary" type="submit">Send</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-cta">
+        <div class="container">
+          <div class="card cta-final">
+            <div>
+              <div class="h3">Ready to get access?</div>
+              <p>Choose a plan below. You’ll be redirected to secure checkout and get immediate access after payment.</p>
+            </div>
+            <div class="cta">
+              <button class="btn btn-primary" type="button" data-cta="access">Get access</button>
+              <a class="btn" href="#pricing">View pricing</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Login / Sign up modal -->
+    <div id="loginModal" class="login-modal" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle" aria-hidden="true">
+      <div class="login-modal-backdrop" id="loginModalBackdrop" tabindex="-1" onclick="closeAuthModal()"></div>
+      <div class="login-modal-panel" onclick="event.stopPropagation()">
+        <button type="button" class="login-modal-close" id="loginModalClose" aria-label="Close" onclick="closeAuthModal()">×</button>
+        <h2 id="loginModalTitle" class="h3" style="margin-bottom: 8px;">Log in or Sign up</h2>
+        <div class="auth-tabs" role="tablist" style="margin-bottom: 20px;">
+          <button type="button" class="auth-tab auth-tab--active" role="tab" id="authTabLogin" aria-selected="true">Log in</button>
+          <button type="button" class="auth-tab" role="tab" id="authTabSignup" aria-selected="false">Sign up</button>
+        </div>
+        <form id="loginForm" class="auth-form" style="display: grid; gap: 20px;" novalidate data-mode="login">
+          <label class="field">
+            <span>Email</span>
+            <input class="input" type="email" id="loginEmailInput" placeholder="you@example.com" autocomplete="email" />
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input class="input" type="password" id="loginPasswordInput" placeholder="Your password" autocomplete="current-password" />
+          </label>
+          <p id="loginFormError" class="login-form-error" role="alert" style="display: none;"></p>
+          <button class="btn btn-primary" type="submit" id="loginSubmitBtn">Log in</button>
+        </form>
+        <form id="signupForm" class="auth-form" style="display: none; grid; gap: 20px;" novalidate data-mode="signup">
+          <label class="field">
+            <span>Email</span>
+            <input class="input" type="email" id="signupEmailInput" placeholder="you@example.com" autocomplete="email" />
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input class="input" type="password" id="signupPasswordInput" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" />
+          </label>
+          <label class="field">
+            <span>Confirm password</span>
+            <input class="input" type="password" id="signupConfirmInput" placeholder="Repeat password" autocomplete="new-password" />
+          </label>
+          <p id="signupFormError" class="login-form-error" role="alert" style="display: none;"></p>
+          <button class="btn btn-primary" type="submit" id="signupSubmitBtn">Create account</button>
+        </form>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div>© <span id="year"></span> Cloneboard. All rights reserved.</div>
+        <div style="display:flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+          <a href="#" id="footerLoginLink" class="js-open-auth-login" role="button">Log in</a>
+          <a href="#" id="footerSignUpLink" class="js-open-auth-signup" role="button">Sign up</a>
+          <span id="footerLoggedIn" style="display: none;"><a href="/access.html">My access</a> · <button type="button" id="footerLogoutBtn" class="footer-link-btn">Log out</button></span>
+          <a href="#pricing">Pricing</a>
+          <a href="#features">Features</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById('year').textContent = String(new Date().getFullYear())
+    </script>
+    <script src="./sales.js"></script>
+  </body>
+</html>
+

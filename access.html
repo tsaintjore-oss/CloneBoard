@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Access — InFlow Dashboard | Cloneboard</title>
+    <link rel="stylesheet" href="./sales.css" />
+  </head>
+  <body>
+    <header class="topbar animate-fade-in">
+      <div class="container topbar-inner">
+        <div class="brand">
+          <img src="./public/logo-cloneboard.png" alt="Cloneboard" class="logo" width="120" height="48" />
+          <div>
+            <div class="brand-title">Cloneboard</div>
+            <div class="brand-sub">InFlow Dashboard Access</div>
+          </div>
+        </div>
+        <nav class="nav">
+          <a href="/sales.html" class="btn">Home</a>
+          <span id="userEmail" style="color: var(--text-secondary); font-size: 14px;"></span>
+          <button class="btn" type="button" id="logoutBtn" style="display: none;">Log out</button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" style="min-height: calc(100vh - 100px); padding-top: 4rem;">
+        <div class="container hero-content">
+          <!-- Login: shown only when not logged in -->
+          <div id="loginForm" class="card" style="max-width: 500px; padding: 48px;">
+            <h2 class="h3" style="margin-bottom: 24px;">Log in</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 32px;">
+              Enter your email to access the InFlow dashboard. You stay logged in on this device until you log out.
+            </p>
+            <form id="emailForm" style="display: grid; gap: 24px;">
+              <label class="field">
+                <span>Email</span>
+                <input class="input" type="email" id="emailInput" placeholder="your@email.com" required />
+              </label>
+              <button class="btn btn-primary" type="submit" id="loginSubmitBtn">Log in</button>
+            </form>
+            <div id="loginError" style="margin-top: 16px; color: #ef4444; display: none;"></div>
+            <p style="margin-top: 24px; font-size: 14px; color: var(--text-muted);">
+              <a href="/sales.html">Back to Cloneboard</a>
+            </p>
+          </div>
+
+          <!-- Loading: checking access -->
+          <div id="checkingAccess" class="card" style="max-width: 500px; padding: 48px; text-align: center; display: none;">
+            <p style="color: var(--text-secondary);">Checking your access…</p>
+          </div>
+
+          <!-- Protected content: full access to InFlow dashboard (only when logged in + active subscription) -->
+          <div id="accessGranted" style="display: none; width: 100%; max-width: 1400px;">
+            <div class="card access-banner" style="margin-bottom: 24px; padding: 24px 32px; text-align: center; border-color: rgba(34, 197, 94, 0.4); background: rgba(34, 197, 94, 0.06);">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px;">
+                <span aria-hidden="true" style="font-size: 28px; color: var(--accent);">✓</span>
+                <h2 class="h3" style="margin: 0;">You have full access</h2>
+              </div>
+              <p style="color: var(--text-secondary); margin: 0 0 16px 0; font-size: 15px;">
+                Your subscription is active. Use the InFlow dashboard below — this is your secure, personal access.
+              </p>
+              <div style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; font-size: 14px; color: var(--text-muted);">
+                <span>Plan: <strong id="subscriptionType" style="color: var(--text-secondary);"></strong></span>
+                <span>Valid until: <strong id="subscriptionEnd" style="color: var(--text-secondary);"></strong></span>
+                <a href="/" target="_blank" rel="noopener noreferrer" class="btn" style="font-size: 14px; padding: 8px 16px;">
+                  Open in new tab →
+                </a>
+              </div>
+            </div>
+            <div class="card" style="overflow: hidden; padding: 0;">
+              <div style="padding: 12px 16px; border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                <span style="font-weight: 500; color: var(--text-secondary);">InFlow Dashboard</span>
+                <a href="/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 14px; padding: 8px 16px;">
+                  Open full screen →
+                </a>
+              </div>
+              <iframe
+                id="dashboardFrame"
+                title="InFlow Dashboard"
+                src="/"
+                style="display: block; width: 100%; height: min(80vh, 900px); min-height: 500px; border: none;"
+                allow="fullscreen"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        const emailForm = document.getElementById("emailForm");
+        const emailInput = document.getElementById("emailInput");
+        const loginForm = document.getElementById("loginForm");
+        const checkingAccess = document.getElementById("checkingAccess");
+        const accessGranted = document.getElementById("accessGranted");
+        const loginError = document.getElementById("loginError");
+        const userEmailEl = document.getElementById("userEmail");
+        const logoutBtn = document.getElementById("logoutBtn");
+
+        function showOnly(el) {
+          loginForm.style.display = "none";
+          checkingAccess.style.display = "none";
+          accessGranted.style.display = "none";
+          if (el) el.style.display = "block";
+        }
+
+        function redirectToPricing() {
+          window.location.href = "/sales.html#pricing";
+        }
+
+        function redirectToLogin() {
+          showOnly(loginForm);
+          loginError.style.display = "none";
+        }
+
+        function checkAccess(email) {
+          showOnly(checkingAccess);
+          loginError.style.display = "none";
+
+          fetch("/api/payment/check-access?email=" + encodeURIComponent(email))
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+              if (data.hasAccess) {
+                accessGranted.style.display = "block";
+                userEmailEl.textContent = email;
+                logoutBtn.style.display = "inline-flex";
+                var typeEl = document.getElementById("subscriptionType");
+                typeEl.textContent = data.subscriptionType === "monthly" ? "Monthly" : "Annual";
+                var endEl = document.getElementById("subscriptionEnd");
+                if (data.subscriptionEndDate) {
+                  var endDate = new Date(data.subscriptionEndDate);
+                  endEl.textContent = endDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+                } else {
+                  endEl.textContent = "—";
+                }
+              } else {
+                redirectToPricing();
+              }
+            })
+            .catch(function () {
+              redirectToLogin();
+              loginError.style.display = "block";
+              loginError.textContent = "Error checking access. Please try again.";
+            });
+        }
+
+        var storedEmail = localStorage.getItem("userEmail");
+        if (storedEmail) {
+          emailInput.value = storedEmail;
+          checkAccess(storedEmail);
+        } else {
+          showOnly(loginForm);
+        }
+
+        emailForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var raw = emailInput.value.trim();
+          if (!raw) return;
+          var email = raw.toLowerCase();
+          var btn = document.getElementById("loginSubmitBtn");
+          btn.disabled = true;
+          btn.textContent = "Logging in…";
+          loginError.style.display = "none";
+
+          fetch("/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email }),
+          })
+            .then(function (res) {
+              return res.json().catch(function () { return {}; }).then(function (data) {
+                return { ok: res.ok, data: data };
+              });
+            })
+            .then(function (result) {
+              var data = result.data;
+              if (result.ok && data.success) {
+                localStorage.setItem("userEmail", data.email);
+                checkAccess(data.email);
+              } else {
+                loginError.style.display = "block";
+                loginError.textContent = data.error || "We couldn’t log you in. Please check your email and try again.";
+              }
+            })
+            .catch(function () {
+              loginError.style.display = "block";
+              loginError.textContent = "Connection error. Please check your internet and try again.";
+            })
+            .finally(function () {
+              btn.disabled = false;
+              btn.textContent = "Log in";
+            });
+        });
+
+        logoutBtn.addEventListener("click", function () {
+          localStorage.removeItem("userEmail");
+          location.reload();
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment Successful — Cloneboard</title>
+    <link rel="stylesheet" href="./sales.css" />
+  </head>
+  <body>
+    <main>
+      <section class="hero" style="min-height: 100vh;">
+        <div class="container hero-content">
+          <div class="card" style="max-width: 560px; padding: 48px 40px; text-align: center;">
+            <div aria-hidden="true" style="font-size: 56px; margin-bottom: 20px; color: var(--accent); line-height: 1;">✓</div>
+            <h1 class="h3" style="margin-bottom: 12px;">Payment confirmed</h1>
+            <p style="color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5;">
+              Your payment has been processed successfully. You’re all set.
+            </p>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 32px;">
+              A confirmation email has been sent to you. Once verified below, you’ll have full access to Cloneboard and the InFlow dashboard.
+            </p>
+            <div id="status" style="margin-bottom: 24px; min-height: 24px;">
+              <p style="color: var(--text-muted); font-size: 14px;">Verifying your access…</p>
+            </div>
+            <p id="redirect-msg" style="display: none; color: var(--accent); font-size: 14px; font-weight: 500; margin-bottom: 24px;"></p>
+            <a href="/access.html" class="btn btn-primary" id="accessBtn" style="display: none;">Go to my access</a>
+            <p style="color: var(--text-muted); font-size: 12px; margin-top: 24px;">
+              Need help? Contact us at <a href="mailto:sales@cloneboard.example" style="color: var(--accent);">sales@cloneboard.example</a>.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script>
+      (function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get("session_id");
+        const statusEl = document.getElementById("status");
+        const accessBtn = document.getElementById("accessBtn");
+
+        function startCountdown(seconds) {
+          const msgEl = document.getElementById("redirect-msg");
+          msgEl.style.display = "block";
+          function tick() {
+            if (seconds <= 0) {
+              window.location.href = "/access.html";
+              return;
+            }
+            msgEl.textContent = "Redirecting to your access in " + seconds + " second" + (seconds === 1 ? "" : "s") + "…";
+            seconds--;
+            setTimeout(tick, 1000);
+          }
+          tick();
+        }
+
+        if (!sessionId) {
+          statusEl.innerHTML = "<p style=\"color: var(--text-muted);\">No payment session was found. If you just completed payment, check your confirmation email and <a href=\"/access.html\">log in here</a> to access your dashboard. If the problem persists, contact <a href=\"mailto:sales@cloneboard.example\">sales@cloneboard.example</a>.</p>";
+          accessBtn.style.display = "inline-flex";
+          accessBtn.textContent = "Go to my access";
+          return;
+        }
+
+        fetch("/api/payment/verify-session?session_id=" + encodeURIComponent(sessionId))
+          .then(function (res) {
+            return res.json().then(function (data) {
+              return { ok: res.ok, data: data };
+            }).catch(function () {
+              return { ok: false, data: { error: "Verification failed. Please try again." } };
+            });
+          })
+          .then(function (result) {
+            var data = result.data;
+            if (result.ok && data.success && data.accessGranted) {
+              statusEl.innerHTML = "<p style=\"color: var(--accent); font-weight: 500;\">✓ Access granted. Redirecting you to your dashboard…</p>";
+              if (data.email) localStorage.setItem("userEmail", data.email);
+              accessBtn.style.display = "inline-flex";
+              startCountdown(3);
+              return;
+            }
+            var msg = data.error || (data.success === false && !data.accessGranted
+              ? "Payment is still processing or could not be verified. You can log in below — if you just paid, your access may already be active."
+              : "Something went wrong. Please try again.");
+            statusEl.innerHTML = "<p style=\"color: var(--text-secondary);\">" + msg + "</p><p style=\"margin-top: 12px; font-size: 14px;\"><a href=\"/access.html\">Go to access page</a> · <a href=\"mailto:sales@cloneboard.example\">Contact support</a></p>";
+            accessBtn.style.display = "inline-flex";
+            accessBtn.textContent = "Go to my access";
+          })
+          .catch(function () {
+            statusEl.innerHTML = "<p style=\"color: var(--text-secondary);\">We couldn’t verify your payment right now. Your payment was received — please <a href=\"/access.html\">log in here</a> to access your dashboard. If you don’t see access, contact <a href=\"mailto:sales@cloneboard.example\">sales@cloneboard.example</a> and we’ll help right away.</p>";
+            accessBtn.style.display = "inline-flex";
+            accessBtn.textContent = "Go to my access";
+          });
+      })();
+    </script>
+  </body>
+</html>

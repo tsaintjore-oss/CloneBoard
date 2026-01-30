@@ -1,0 +1,37 @@
+export const defaultData = {
+  period: {
+    start: '1 oct. 2025',
+    end: '31 oct. 2025',
+  },
+  totalEarnings: 672776.94,
+  earnings: {
+    subscriptions: 0,
+    posts: 146278.25,
+    messages: 736.74,
+    tips: 219184.04,
+    referrals: 306577.91,
+    streams: 0,
+  },
+  trends: [
+    { day: '1 oct.', earnings: 28500, growth: 12.5 },
+    { day: '3 oct.', earnings: 22100, growth: -22.5 },
+    { day: '5 oct.', earnings: 18900, growth: -14.5 },
+    { day: '7 oct.', earnings: 24100, growth: 27.5 },
+    { day: '9 oct.', earnings: 26800, growth: 11.2 },
+    { day: '11 oct.', earnings: 19200, growth: -28.4 },
+    { day: '13 oct.', earnings: 25300, growth: 31.8 },
+    { day: '15 oct.', earnings: 27900, growth: 10.3 },
+    { day: '17 oct.', earnings: 24300, growth: -12.9 },
+    { day: '18 oct.', earnings: 13660.76, growth: -43.91 },
+    { day: '20 oct.', earnings: 22100, growth: 61.8 },
+    { day: '22 oct.', earnings: 26800, growth: 21.3 },
+    { day: '24 oct.', earnings: 24500, growth: -8.6 },
+    { day: '26 oct.', earnings: 27200, growth: 11.0 },
+    { day: '28 oct.', earnings: 28900, growth: 6.3 },
+    { day: '31 oct.', earnings: 29400, growth: 1.7 },
+  ],
+  display: {
+    byDay: true,
+    netEarnings: true,
+  },
+}

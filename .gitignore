@@ -1,0 +1,26 @@
+# dépendances
+node_modules/
+
+# build / sortie
+dist/
+build/
+.vercel/
+
+# variables d'environnement (clés secrètes)
+.env
+.env.local
+.env.*.local
+
+# logs
+npm-debug.log*
+*.log
+
+# système
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
