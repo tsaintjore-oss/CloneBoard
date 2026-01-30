@@ -8,13 +8,18 @@ import "dotenv/config";
 let db = null;
 let usePostgres = false;
 
+// Variables qui recevront les implémentations (Postgres ou SQLite)
+let createUser, createUserWithPassword, getUserByEmail, getUserById;
+let updateUserSubscription, updateUserStripeCustomerId, hasActiveSubscription, createPayment;
+let defaultExport = null;
+
 // Détecter quelle base de données utiliser
 if (process.env.DATABASE_URL) {
   // Utiliser PostgreSQL (Supabase) si DATABASE_URL est définie
   usePostgres = true;
   const { query } = await import("./db.js");
-  
-  export const createUser = async (email, stripeCustomerId = null) => {
+
+  createUser = async (email, stripeCustomerId = null) => {
     try {
       const result = await query(
         "INSERT INTO users (email, stripe_customer_id) VALUES ($1, $2) RETURNING id",
@@ -30,7 +35,7 @@ if (process.env.DATABASE_URL) {
     }
   };
 
-  export const createUserWithPassword = async (email, passwordHash) => {
+  createUserWithPassword = async (email, passwordHash) => {
     try {
       const result = await query(
         "INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id",
@@ -46,17 +51,17 @@ if (process.env.DATABASE_URL) {
     }
   };
 
-  export const getUserByEmail = async (email) => {
+  getUserByEmail = async (email) => {
     const result = await query("SELECT * FROM users WHERE email = $1", [email]);
     return result.rows[0] || null;
   };
 
-  export const getUserById = async (id) => {
+  getUserById = async (id) => {
     const result = await query("SELECT * FROM users WHERE id = $1", [id]);
     return result.rows[0] || null;
   };
 
-  export const updateUserSubscription = async (
+  updateUserSubscription = async (
     email,
     subscriptionType,
     subscriptionStatus,
@@ -73,14 +78,14 @@ if (process.env.DATABASE_URL) {
     );
   };
 
-  export const updateUserStripeCustomerId = async (email, stripeCustomerId) => {
+  updateUserStripeCustomerId = async (email, stripeCustomerId) => {
     await query(
       "UPDATE users SET stripe_customer_id = $1, updated_at = NOW() WHERE email = $2",
       [stripeCustomerId, email]
     );
   };
 
-  export const hasActiveSubscription = async (email) => {
+  hasActiveSubscription = async (email) => {
     const user = await getUserByEmail(email);
     if (!user) return false;
     if (user.subscription_status !== "active") return false;
@@ -91,14 +96,14 @@ if (process.env.DATABASE_URL) {
     return true;
   };
 
-  export const createPayment = async (userId, paymentIntentId, amount, status) => {
+  createPayment = async (userId, paymentIntentId, amount, status) => {
     await query(
       "INSERT INTO payments (user_id, stripe_payment_intent_id, amount, status) VALUES ($1, $2, $3, $4)",
       [userId, paymentIntentId, amount, status]
     );
   };
 
-  export default null;
+  defaultExport = null;
 } else {
   // Utiliser SQLite (pour développement local ou Railway/Render)
   const Database = (await import("better-sqlite3")).default;
@@ -141,7 +146,7 @@ if (process.env.DATABASE_URL) {
     db.exec("ALTER TABLE users ADD COLUMN password_hash TEXT");
   } catch (_) {}
 
-  export const createUser = (email, stripeCustomerId = null) => {
+  createUser = (email, stripeCustomerId = null) => {
     const stmt = db.prepare(
       "INSERT INTO users (email, stripe_customer_id) VALUES (?, ?)"
     );
@@ -155,7 +160,7 @@ if (process.env.DATABASE_URL) {
     }
   };
 
-  export const createUserWithPassword = (email, passwordHash) => {
+  createUserWithPassword = (email, passwordHash) => {
     const stmt = db.prepare(
       "INSERT INTO users (email, password_hash) VALUES (?, ?)"
     );
@@ -169,17 +174,17 @@ if (process.env.DATABASE_URL) {
     }
   };
 
-  export const getUserByEmail = (email) => {
+  getUserByEmail = (email) => {
     const stmt = db.prepare("SELECT * FROM users WHERE email = ?");
     return stmt.get(email);
   };
 
-  export const getUserById = (id) => {
+  getUserById = (id) => {
     const stmt = db.prepare("SELECT * FROM users WHERE id = ?");
     return stmt.get(id);
   };
 
-  export const updateUserSubscription = (
+  updateUserSubscription = (
     email,
     subscriptionType,
     subscriptionStatus,
@@ -196,14 +201,14 @@ if (process.env.DATABASE_URL) {
     stmt.run(subscriptionType, subscriptionStatus, subscriptionEndDate, email);
   };
 
-  export const updateUserStripeCustomerId = (email, stripeCustomerId) => {
+  updateUserStripeCustomerId = (email, stripeCustomerId) => {
     const stmt = db.prepare(
       "UPDATE users SET stripe_customer_id = ? WHERE email = ?"
     );
     stmt.run(stripeCustomerId, email);
   };
 
-  export const hasActiveSubscription = (email) => {
+  hasActiveSubscription = (email) => {
     const user = getUserByEmail(email);
     if (!user) return false;
     if (user.subscription_status !== "active") return false;
@@ -214,12 +219,25 @@ if (process.env.DATABASE_URL) {
     return true;
   };
 
-  export const createPayment = (userId, paymentIntentId, amount, status) => {
+  createPayment = (userId, paymentIntentId, amount, status) => {
     const stmt = db.prepare(
       "INSERT INTO payments (user_id, stripe_payment_intent_id, amount, status) VALUES (?, ?, ?, ?)"
     );
     stmt.run(userId, paymentIntentId, amount, status);
   };
 
-  export default db;
+  defaultExport = db;
 }
+
+// Exports au niveau supérieur du module (obligatoire en ESM)
+export {
+  createUser,
+  createUserWithPassword,
+  getUserByEmail,
+  getUserById,
+  updateUserSubscription,
+  updateUserStripeCustomerId,
+  hasActiveSubscription,
+  createPayment,
+};
+export default defaultExport;
