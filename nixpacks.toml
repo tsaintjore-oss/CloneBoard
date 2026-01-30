@@ -1,0 +1,11 @@
+# Outils pour compiler better-sqlite3 (module natif)
+[phases.setup]
+nixPkgs = ["nodejs_20", "python3", "gcc", "gnumake"]
+
+# Utiliser npm install au lieu de npm ci
+[phases.install]
+cmds = ["npm install"]
+
+# Commande de démarrage
+[start]
+cmd = "node backend/server.js"
